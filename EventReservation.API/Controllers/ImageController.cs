@@ -116,7 +116,7 @@ namespace EventReservation.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetCardById/{Id}")]//Done
+        [Route("GetImageById/{Id}")]//Done
         public IActionResult GetRoleById(int Id)
         {
             var image = _imageService.GetImageById(Id);

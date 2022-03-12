@@ -47,14 +47,14 @@ namespace EventReservation.Core.Repository
             return result.ToList();
         }
 
-        public Image GetImageByHall(int Hallid)
+        public List<Image> GetImageByHall(int Hallid)
         {
             var p = new DynamicParameters();
             p.Add("Hall", Hallid, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            var result = _dbContext.Connection.QueryFirstOrDefault<Image>("IMAGE_PACKAGE.GetImageByHallId", p, commandType: CommandType.StoredProcedure);
-            if (result == null)
+            var result = _dbContext.Connection.Query<Image>("IMAGE_PACKAGE.GetImageByHallId", p, commandType: CommandType.StoredProcedure);
+            if (result.Count() == 0)
                 return null;
-            return result;
+            return result.ToList();
         }
 
         public Image GetImageById(int ImageId)

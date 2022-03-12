@@ -30,7 +30,7 @@ namespace EventReservation.Infra.Service
             return _imageRepository.GetAllImage();
         }
 
-        public Image GetImageByHall(int Hallid)
+        public List<Image> GetImageByHall(int Hallid)
         {
             return _imageRepository.GetImageByHall(Hallid);
         }

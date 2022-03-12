@@ -14,6 +14,6 @@ namespace EventReservation.Core.Repository
         bool DeleteImage(int ImageId);
         Image GetImageById(int ImageId);
         Image GetImageByUrl(string  Url);
-        Image GetImageByHall(int  Hallid);
+        List<Image> GetImageByHall(int  Hallid);
     }
 }
