@@ -45,24 +45,25 @@ namespace EventReservation.API.Controllers
 
         [HttpGet]
         [Route("GetAllAdmin")]
-        [Authorize(Roles ="MainAdmin")]
+        [Authorize(Roles = "MainAdmin")]
         public  IActionResult GetAllAdmin()
         {
             var allUser =  _userService.GetAllUsers().Result;
-            var admin =  from data in allUser
-                         where data.Position == "Admin"
-                         select new UsertoResultDto
-                        {
-                            Firstname = data.Firstname,
-                            Lastname = data.Lastname,
-                            Image = data.Image,
-                            Email=data.Email,
-                            Birthdate=data.Birthdate,
-                            Position=data.Position,
-                            Username=data.Username
-                            
-                        };
-         
+            var admin = from data in allUser
+                        where data.Position == "Admin"
+                        select new UsertoResultDto
+                   {
+                     Userid = data.Userid,
+                Firstname = data.Firstname,
+                Lastname = data.Lastname,
+                Image = data.Image,
+                Email = data.Email,
+                Birthdate = data.Birthdate,
+                Position = data.Position,
+                Username = data.Username
+
+                             };
+
             if (admin.Count() == 0)
                 return NoContent();
 
@@ -82,7 +83,7 @@ namespace EventReservation.API.Controllers
                         where data.Position == "NormalUser"
                         select new UsertoResultDto
                         {
-
+                            Userid = data.Userid,
                             Firstname = data.Firstname,
                             Lastname = data.Lastname,
                             Image = data.Image,
@@ -125,12 +126,12 @@ namespace EventReservation.API.Controllers
 
         [HttpPut]
         [Route("EditProfile")]
-        [Authorize(Roles =("Admin,NormalUser"))]
+        [Authorize(Roles =("Admin,NormalUser,MainAdmin"))]
         public async Task<IActionResult> EditProfile([FromForm]UserToUpdateDto userToUpdateDto)
         {
             var userId = int.Parse(User.FindFirst((ClaimTypes.NameIdentifier)).Value);
-            userToUpdateDto.Userid=userId;
-            var oldUserData = _userService.GetUserById(userId).Result;
+           // userToUpdateDto.Userid=userId;
+            var oldUserData = _userService.GetUserById(userToUpdateDto.Userid).Result;
             if(userToUpdateDto.Email !=oldUserData.Email)
             if (await _userService.EmailExsists(userToUpdateDto.Email))
                 return BadRequest("Email is already exists");
@@ -164,8 +165,8 @@ namespace EventReservation.API.Controllers
         }
 
         [HttpPost]
-        [Route("AddAddmin")]
-        [Authorize("MainAdmin")]
+        [Route("AddAdmin")]
+        [Authorize(Roles = "MainAdmin")]
         public async Task<IActionResult> AddAdmin([FromForm] AddToAdminDto addToAdminDto)
         {
             addToAdminDto.Username = addToAdminDto.Username.ToLower();
@@ -210,10 +211,26 @@ namespace EventReservation.API.Controllers
         }
 
 
+        [Route("GetUserById/{id}")]
+        //[Authorize(Roles = "Admin,NormalUser")]
+        public IActionResult GetUserById(int id)
+        {
+            if (id == 0)
+                return NoContent();
+
+            var user = _userService.GetUserById(id).Result;
+
+
+            if (user == null)
+                return BadRequest("No User Founded");
+
+
+            return Ok(user);
+        }
 
 
 
-        [HttpGet]
+            [HttpGet]
         [Route("SearchUser")]
         [Authorize(Roles = ("Admin,MainAdmin"))]
         public IActionResult SearchUser(UserToSearchDto userToSearchDto)

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EventReservation.Core.Repository
+namespace EventReservation.Core.Service
 {
-    public interface ITestimonialRepository
+    public interface ITestimonialService
     {
         List<Testimonial> GetAllTestimonial();
         bool CreateTestimonial(ToAddTestimonial toAddTestimonial);

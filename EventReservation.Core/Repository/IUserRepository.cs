@@ -19,7 +19,7 @@ namespace EventReservation.Core.Repository
 
         Task<bool> DeleteUser(int id);
 
-        Task<User> GetUserById(int id);
+        Task<UsertoResultDto>GetUserById(int id);
 
         Task<List<UsertoResultDto>> SearchUser(UserToSearchDto userSearchDto);
 

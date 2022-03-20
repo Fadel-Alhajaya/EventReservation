@@ -11,7 +11,7 @@ namespace EventReservation.Core.Data
         public string Imagepath { get; set; }
         public string Feedback { get; set; }
         public string Status { get; set; }
-       
+        public string PublicId { get; set; }
         public int? Websiteid { get; set; }
         [ForeignKey("Websiteid")]
         public virtual Website Website { get; set; }

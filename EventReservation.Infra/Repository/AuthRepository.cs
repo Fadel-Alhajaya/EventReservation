@@ -58,7 +58,7 @@ namespace EventReservation.Infra.Repository
 
         }
         
-        public async Task<bool> Register(UserToRegisterDto userToRegisterDto)
+        public async Task<UserToResultRegisterDto> Register(UserToRegisterDto userToRegisterDto)
         {
 
             var parmeterLogin = new DynamicParameters();
@@ -84,13 +84,13 @@ namespace EventReservation.Infra.Repository
             parmeter.Add("LID", result.id, dbType: DbType.Int32, direction: ParameterDirection.Input);
             parmeter.Add("CID", null, dbType: DbType.Int32, direction: ParameterDirection.Input);
             parmeter.Add("RID", 3, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            parmeter.Add("PID", userToRegisterDto.PublicId, dbType: DbType.String, direction: ParameterDirection.Input);
 
 
+            var resultUser=  await _dbContext.Connection.QueryFirstAsync<UserToResultRegisterDto>("USER_F_PACKAGE.CREATEUSER", parmeter, commandType: CommandType.StoredProcedure);
 
-            await _dbContext.Connection.QueryAsync("USER_F_PACKAGE.CREATEUSER", parmeter, commandType: CommandType.StoredProcedure);
-
-
-            return true;
+           
+            return resultUser;
 
         }
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -135,7 +135,7 @@ namespace EventReservation.Infra.Repository
         {
             var parmeter = new DynamicParameters();
 
-            parmeter.Add("id",passwordToDto.logid, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            parmeter.Add("id",passwordToDto.Logid, dbType: DbType.Int32, direction: ParameterDirection.Input);
 
 
             var result = await _dbContext.Connection.QueryFirstAsync<LoginToDto>("LOGIN_PACKAGE.GETLOGINBYID", parmeter, commandType: CommandType.StoredProcedure);
@@ -147,18 +147,13 @@ namespace EventReservation.Infra.Repository
             var parmeterPassword = new DynamicParameters();
             CreatePasswordHash(passwordToDto.newPassword, out byte[] passwordHash, out byte[] passwordSalt);
 
-            parmeterPassword.Add("LogID", passwordToDto.logid, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            parmeterPassword.Add("LogID", passwordToDto.Logid, dbType: DbType.Int32, direction: ParameterDirection.Input);
             parmeterPassword.Add("PASSHASH", passwordHash, dbType: DbType.Binary, direction: ParameterDirection.Input);
             parmeterPassword.Add("PASSALT", passwordSalt, dbType: DbType.Binary, direction: ParameterDirection.Input);
 
             var change = _dbContext.Connection.QueryAsync("LOGIN_PACKAGE.CHANAGEPASSOWRD", parmeterPassword, commandType: CommandType.StoredProcedure);
 
             return true;
-        }
-
-        Task<UserToResultRegisterDto> IAuthRepository.Register(UserToRegisterDto userToRegisterDto)
-        {
-            throw new NotImplementedException();
         }
     }
 }

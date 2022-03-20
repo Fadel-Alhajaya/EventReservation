@@ -1,6 +1,7 @@
 ﻿using EventReservation.Core.Data;
 using EventReservation.Core.DTO;
 using EventReservation.Core.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -45,6 +46,7 @@ namespace EventReservation.API.Controllers
         }
         [HttpDelete]
         [Route("DeleteCard/{id}")]
+        [Authorize (Roles="NormalUser")]
         public IActionResult DeleteCard(int id)//Done
         {
             var cards = _cardService.DeleteCard(id);
@@ -60,6 +62,7 @@ namespace EventReservation.API.Controllers
         }
         [HttpGet]
         [Route("GetCardById/{Id}")]//Done
+        [Authorize(Roles = "NormalUser")]
         public IActionResult GetRoleById(int Id)
         {
             var cards = _cardService.GetCardById(Id);

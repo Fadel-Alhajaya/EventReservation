@@ -47,7 +47,7 @@ namespace EventReservation.Infra.Service
             return _userRepository.GetAllUsers();
         }
 
-        public Task<User> GetUserById(int id)
+        public Task<UsertoResultDto> GetUserById(int id)
         {
             return _userRepository.GetUserById(id);
         }

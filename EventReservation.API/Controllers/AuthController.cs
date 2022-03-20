@@ -5,6 +5,7 @@ using EventReservation.Core.Helpers;
 using EventReservation.Core.Repository;
 using EventReservation.Core.Service;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -20,6 +21,7 @@ namespace EventReservation.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorePolicy")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -43,21 +45,27 @@ namespace EventReservation.API.Controllers
         }
         [HttpPost]
         [Route("Register")]
+       // [Authorize(Roles = "NormalUser")]
+
         public async Task<IActionResult> Register([FromForm] UserToRegisterDto userToRegisterDto)
         {
             userToRegisterDto.Username = userToRegisterDto.Username.ToLower();
             userToRegisterDto.Email = userToRegisterDto.Email.ToLower();
+
             if ( (await _authService.EmailExsists(userToRegisterDto.Email)) && (await _authService.UserNameExsists(userToRegisterDto.Username)))
                 return BadRequest("Email or Username already exists ");
 
-            userToRegisterDto.PublicId = String.Empty;
-
-            AddImage(userToRegisterDto.ImgFile, out string pubId, out string newPath);
-            userToRegisterDto.Image = newPath;
-            userToRegisterDto.PublicId = pubId;
+           // userToRegisterDto.PublicId = String.Empty;
+            if (userToRegisterDto.ImgFile != null)
+            {
+                AddImage(userToRegisterDto.ImgFile, out string pubId, out string newPath);
+                userToRegisterDto.Image = newPath;
+                userToRegisterDto.PublicId = pubId;
+            }
            var auth= _authService.Register(userToRegisterDto);
-
-            return Ok(auth);
+            return Ok(new
+            {
+                token = auth,});
         }
 
         
@@ -88,10 +96,9 @@ namespace EventReservation.API.Controllers
 
         }
 
-       
-
         [HttpPost]
         [Route("Login")]
+        [AllowAnonymous]
         public IActionResult Login(UserToLoginDto userToLoginDto)
         {
             userToLoginDto.UserName = userToLoginDto.UserName.ToLower();
@@ -99,9 +106,13 @@ namespace EventReservation.API.Controllers
             var auth= _authService.Login(userToLoginDto);
             if (auth == "erorr")
                 return Unauthorized("invalid Password or Username");
-          
-            return Ok(auth);
-           
+        
+
+            return Ok(new
+            {
+                token = auth,
+            });
+
 
 
         }

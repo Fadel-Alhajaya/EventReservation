@@ -3,19 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EventReservation.Core.Repository
+namespace EventReservation.Core.Service
 {
-   public interface IHallRepository
+    public interface IHallService
     {
         bool CreateHall(Hall hall);
         bool UpdateHall(Hall hall);
         bool DeleteHall(int id);
-        List<Hall> GetAllHall();
+        List<Hall>GetAllHall();
         Hall GetHallById(int id);
-        List<Hall> GetHallByName(Hall hall);
+        List<Hall>GetHallByName(Hall hall);
         Hall GetCheapestHall();
         List<Hall> GetHallByCapacity(int CAP);
         Hall GetHallByLocationId(int id);
-        List<Hall> GetHallByUsage(string usage);
+        List<Hall>GetHallByUsage(string usage);
     }
 }

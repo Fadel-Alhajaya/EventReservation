@@ -72,6 +72,7 @@ namespace EventReservation.Infra.Service
         public string Register(UserToRegisterDto userToRegisterDto)
         {
             var result = _authRepository.Register(userToRegisterDto).Result;
+            
             var claims = new[]
               {
                 new Claim(ClaimTypes.NameIdentifier,result.UserId.ToString()),

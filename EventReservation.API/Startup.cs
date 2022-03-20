@@ -35,6 +35,10 @@ namespace EventReservation.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("CorePolicy", builder => {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
+
             services.AddControllers();
 
             services.AddScoped<IDbContext, DbContext>();
@@ -67,6 +71,17 @@ namespace EventReservation.API
 
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IReviewService, ReviewService>();
+
+            services.AddScoped<IDbContext, DbContext>();
+
+            services.AddScoped<IContactusRepository, ContactusRepository>();
+            services.AddScoped<IContactusService, ContactusService>();
+
+            services.AddScoped<IHallRepository, HallRepository>();
+            services.AddScoped<IHallService, HallService>();
+
+            services.AddScoped<ITestimonialRepository, TestimonialRepository>();
+            services.AddScoped<ITestimonialService, TestimonialService>();
 
             services.AddAuthentication(opt =>
             {
@@ -101,6 +116,7 @@ namespace EventReservation.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("CorePolicy");
             app.UseAuthentication();
 
             app.UseAuthorization();

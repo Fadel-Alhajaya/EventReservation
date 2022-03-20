@@ -7,6 +7,7 @@ namespace EventReservation.Core.DTO
 {
     public class UserToRegisterDto
     {
+       
         public string Username { get; set; }
 
         public string Firstname { get; set; }

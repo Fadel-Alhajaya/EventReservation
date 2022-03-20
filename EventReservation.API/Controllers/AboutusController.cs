@@ -14,6 +14,7 @@ namespace EventReservation.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   
     public class AboutusController : ControllerBase
     {
 
@@ -30,7 +31,7 @@ namespace EventReservation.API.Controllers
 
         [HttpGet]
         [Route("GetAboutUS")]
-        [Authorize(Roles = "Admin")]
+       [AllowAnonymous]
         public IActionResult GetAboutUs()
         {
             var result = _aboutusService.GetAllAboutus().Result;

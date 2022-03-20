@@ -1,6 +1,7 @@
 ﻿using EventReservation.Core.Data;
 using EventReservation.Core.DTO;
 using EventReservation.Core.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,6 +24,7 @@ namespace EventReservation.API.Controllers
 
         [HttpGet]
         [Route("GetAllRoles")]
+        [Authorize (Roles ="MainAdmin")]
         public IActionResult  GetAllRoles()//Done
         {
             var roles = _roleService.GetAllRoles();
@@ -37,13 +39,15 @@ namespace EventReservation.API.Controllers
         {
             var roles = _roleService.AddRole(role);
 
-            if (roles ==false) return BadRequest("No");
+            if (roles ==false)
+                return BadRequest("No");
             return Ok(roles);
 
 
         }
         [HttpDelete]
        [Route("DeleteRole/{id}")]
+        [Authorize(Roles = "MainAdmin")]
         public IActionResult DeleteRole(int id)//Done
         {
             var roles = _roleService.DeleteRole(id);

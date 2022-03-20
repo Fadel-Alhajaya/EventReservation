@@ -103,14 +103,14 @@ namespace EventReservation.Infra.Repository
 
 
 
-        public async Task<User> GetUserById(int id)
+        public async Task<UsertoResultDto> GetUserById(int id)
         {
 
             var parameter = new DynamicParameters();
 
-            parameter.Add("ID", id, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            parameter.Add("usernno", id, dbType: DbType.Int32, direction: ParameterDirection.Input);
 
-            var result = await _dbContext.Connection.QueryFirstOrDefaultAsync<User>("USER_F_PACKAGE.GETUSERBYID", parameter, commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.QueryFirstOrDefaultAsync<UsertoResultDto>("USER_F_PACKAGE.GETUSERBYID", parameter, commandType: CommandType.StoredProcedure);
 
             return result;
 
