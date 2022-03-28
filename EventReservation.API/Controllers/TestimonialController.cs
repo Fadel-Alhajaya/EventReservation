@@ -43,7 +43,15 @@ namespace EventReservation.API.Controllers
             if (result == null) return NoContent();
             return Ok(result);
         }
+        [HttpGet]
+        [Route("GetAllTestimonialApproved")]
+        public IActionResult GetAllTestimonialApproved()
+        {
+            var result = _testimonialService.GetAllTestimonialApproved();
 
+            if (result == null) return NoContent();
+            return Ok(result);
+        }
 
         private void AddImage(IFormFile img, out string pubid, out string newpath)
         {
@@ -77,6 +85,7 @@ namespace EventReservation.API.Controllers
         public IActionResult AddTestimonial([FromForm] ToAddTestimonial toAddTestimonial)
         {
             toAddTestimonial.Publicid = String.Empty;
+            toAddTestimonial.Personalname = toAddTestimonial.Personalname.ToLower();
             AddImage(toAddTestimonial.ImageFile, out string pubid, out string newpath);
             toAddTestimonial.ImageUrl = newpath;
             toAddTestimonial.Publicid = pubid;

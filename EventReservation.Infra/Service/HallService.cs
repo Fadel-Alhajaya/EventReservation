@@ -15,7 +15,7 @@ namespace EventReservation.Infra.Service
             _hallRepository = hallRepository;
         }
 
-        public bool CreateHall(Hall hall)
+        public Hall CreateHall(Hall hall)
         {
             return _hallRepository.CreateHall(hall);
         }
@@ -40,19 +40,24 @@ namespace EventReservation.Infra.Service
             return _hallRepository.GetHallByCapacity(CAP);
         }
 
+        public List<Hall> GetHallByPrice(int price)
+        {
+            return _hallRepository.GetHallByPrice(price);
+        }
+
         public Hall GetHallById(int id)
         {
             return _hallRepository.GetHallById(id);
         }
 
-        public Hall GetHallByLocationId(int id)
+        public Location GetHallByLocationId(int id)
         {
             return _hallRepository.GetHallByLocationId(id);
         }
 
-        public List<Hall> GetHallByName(Hall hall)
+        public List<Hall> GetHallByName(string name)
         {
-            return _hallRepository.GetHallByName(hall);
+            return _hallRepository.GetHallByName(name);
         }
 
         public List<Hall> GetHallByUsage(string usage)

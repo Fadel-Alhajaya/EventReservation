@@ -12,8 +12,6 @@ namespace EventReservation.Core.Service
         CountsDTO CountEventAccepted();
         CountsDTO CountEventRejected();
         CountsDTO CountEventPending();
-
-
-
+       
     }
 }

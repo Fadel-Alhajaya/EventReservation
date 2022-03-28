@@ -1,4 +1,5 @@
 ﻿using EventReservation.Core.Data;
+using EventReservation.Core.DTO;
 using EventReservation.Core.Repository;
 using EventReservation.Core.Service;
 using System;
@@ -32,12 +33,12 @@ namespace EventReservation.Infra.Service
             return _aboutusRepository.GetAboutusById(id);
         }
 
-        public Task<Aboutus> GetAllAboutus()
+        public Task<List<AboutusToDto>> GetAllAboutus()
         {
             return _aboutusRepository.GetAllAboutus();
         }
 
-        public Task<bool> UpdateAboutus(Aboutus aboutus)
+        public Task<bool> UpdateAboutus(UpdateAboutusToDto aboutus)
         {
             return _aboutusRepository.UpdateAboutus(aboutus);
         }

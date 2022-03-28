@@ -20,18 +20,18 @@ namespace EventReservation.Core.Repository
 
 
 
-        public bool AcceptEvent(int EventId)
+        public Event AcceptEvent(int EventId)
         {
             var p = new DynamicParameters();
             p.Add("Id", EventId, dbType: DbType.Int32, direction: ParameterDirection.Input);
             var result = _dbContext.Connection.QueryFirstOrDefault<Event>("Event_PACKAGE.AcceptEvent", p, commandType: CommandType.StoredProcedure);
             if (result.Status !="Accepted")
-                return false;
-            return true;
+                return null;
+            return result;
         }
 
         public bool AddNewEvent(EventToAddDto eventToAddDto)
-        {
+        { //edited
             var p = new DynamicParameters();
             p.Add("ETYPE", eventToAddDto.Eventtype, dbType: DbType.String, direction: ParameterDirection.Input);
             p.Add("START_DATE", eventToAddDto.Startdate, dbType: DbType.DateTime, direction: ParameterDirection.Input);
@@ -39,6 +39,9 @@ namespace EventReservation.Core.Repository
             p.Add("ESTATUS", "Pending", dbType: DbType.String, direction: ParameterDirection.Input);
             p.Add("hall", eventToAddDto.HallId, dbType: DbType.Int32, direction: ParameterDirection.Input);
             p.Add("user", eventToAddDto.UserId, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            p.Add("NumberPerson", eventToAddDto.NoPerson, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            p.Add("totprice", eventToAddDto.totalprice, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            p.Add("cardtoken", eventToAddDto.cardtokenid, dbType: DbType.String, direction: ParameterDirection.Input);
             var result = _dbContext.Connection.ExecuteAsync("Event_PACKAGE.CREATEEvent", p, commandType: CommandType.StoredProcedure);
             if (result == null)
                 return false;
@@ -62,9 +65,9 @@ namespace EventReservation.Core.Repository
             return result.ToList();
         }
 
-        public List<Event> GetAllEvent()
+        public List<EventInfoDTO> GetAllEvent()
         {
-            var result = _dbContext.Connection.Query<Event>("Event_PACKAGE.GETALLEvent", commandType: CommandType.StoredProcedure);
+            var result = _dbContext.Connection.Query<EventInfoDTO>("Event_PACKAGE.GETALLEvent", commandType: CommandType.StoredProcedure);
 
             return result.ToList();
         }
@@ -76,25 +79,25 @@ namespace EventReservation.Core.Repository
             return result.ToList();
         }
 
-        public Event GetEventById(int EventId)
+        public EventResultToDto GetEventById(int EventId)
         {
             var p = new DynamicParameters();
             p.Add("Id", EventId, dbType: DbType.Int32, direction: ParameterDirection.Input);
-            var result = _dbContext.Connection.QueryFirstOrDefault<Event>("Event_PACKAGE.GetEventById", p, commandType: CommandType.StoredProcedure);
+            var result = _dbContext.Connection.QueryFirstOrDefault<EventResultToDto>("Event_PACKAGE.GetEventById", p, commandType: CommandType.StoredProcedure);
             if (result == null)
                 return null;
             return result;
         }
 
 
-        public bool RejectEvent(int EventId)
+        public Event RejectEvent(int EventId)
         {
             var p = new DynamicParameters();
             p.Add("Id", EventId, dbType: DbType.Int32, direction: ParameterDirection.Input);
             var result = _dbContext.Connection.QueryFirstOrDefault<Event>("Event_PACKAGE.RejectEvent", p, commandType: CommandType.StoredProcedure);
             if (result.Status != "Rejected")
-                return false;
-            return true;
+                return null;
+            return result;
         }
 
        

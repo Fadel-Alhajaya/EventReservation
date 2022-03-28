@@ -7,15 +7,16 @@ namespace EventReservation.Core.Service
 {
     public interface IHallService
     {
-        bool CreateHall(Hall hall);
+        Hall CreateHall(Hall hall);
         bool UpdateHall(Hall hall);
         bool DeleteHall(int id);
         List<Hall>GetAllHall();
         Hall GetHallById(int id);
-        List<Hall>GetHallByName(Hall hall);
+        List<Hall>GetHallByName(string name);
         Hall GetCheapestHall();
         List<Hall> GetHallByCapacity(int CAP);
-        Hall GetHallByLocationId(int id);
+        List<Hall> GetHallByPrice(int price);
+        Location GetHallByLocationId(int id);
         List<Hall>GetHallByUsage(string usage);
     }
 }

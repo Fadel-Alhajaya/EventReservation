@@ -39,7 +39,7 @@ namespace EventReservation.Infra.Service
             return _locationRepository.GetlocationIdByCity(city);
         }
 
-        public bool SetLocation(Location location)
+        public Location SetLocation(Location location)
         {
             return _locationRepository.SetLocation(location);
         }

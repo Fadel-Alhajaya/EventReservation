@@ -38,6 +38,13 @@ namespace EventReservation.Core.Repository
             return true;
         }
 
+        public List<Testimonial> GetAllTestimonialApproved()
+        {
+
+            IEnumerable<Testimonial> result = _dbContext.Connection.Query<Testimonial>("TESTIMONIAL_F_PACKAGE.GETAPPROVEDTESTIMONIAL", commandType: CommandType.StoredProcedure);
+
+            return result.ToList();
+        }
         public bool DeleteTestimonial(int id)
         {
             var parmeter = new DynamicParameters();

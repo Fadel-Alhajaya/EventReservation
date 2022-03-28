@@ -9,6 +9,7 @@ namespace EventReservation.Core.Repository
     public interface ITestimonialRepository
     {
         List<Testimonial> GetAllTestimonial();
+        List<Testimonial> GetAllTestimonialApproved();
         bool CreateTestimonial(ToAddTestimonial toAddTestimonial);
         bool DeleteTestimonial(int id);
         Testimonial GetTestimonialById(int id);

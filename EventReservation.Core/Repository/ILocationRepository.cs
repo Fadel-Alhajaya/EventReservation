@@ -8,7 +8,7 @@ namespace EventReservation.Core.Repository
     public interface ILocationRepository
     {
         List<Location>GetAllLocation();
-        bool SetLocation(Location location);
+        Location SetLocation(Location location);
         bool UpdateLocation(Location location);
         bool DeleteLocation(int locationId);
         Location GetLocationById(int locationId);

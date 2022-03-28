@@ -8,7 +8,7 @@ namespace EventReservation.Core.Data
     {
         public int Testimonialid { get; set; }
         public string Personalname { get; set; }
-        public string Imagepath { get; set; }
+        public string ImageUrl { get; set; }
         public string Feedback { get; set; }
         public string Status { get; set; }
         public string PublicId { get; set; }

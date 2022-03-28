@@ -37,25 +37,29 @@ namespace EventReservation.API.Controllers
         [Route("AddImage")]
         public IActionResult AddImage([FromForm]ImageToAddDto imageToAddDto)
         {
-            var file = imageToAddDto.ImageFile;
-            var uploadResult = new ImageUploadResult();
-           if(file.Length > 0)
-            {
-                using (var stream=file.OpenReadStream())
-                {
-                    var uploadParams = new ImageUploadParams()
-                    {
-                        
-                        File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
-                    };
-                    uploadResult = Cloudinary.Upload(uploadParams);
 
+            foreach (var item in imageToAddDto.ImageFile)
+            {
+                var file = item;
+                var uploadResult = new ImageUploadResult();
+                if (file.Length > 0)
+                {
+                    using (var stream = file.OpenReadStream())
+                    {
+                        var uploadParams = new ImageUploadParams()
+                        {
+
+                            File = new FileDescription(file.Name, stream),
+                            Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
+                        };
+                        uploadResult = Cloudinary.Upload(uploadParams);
+
+                    }
                 }
+                imageToAddDto.ImageUrl = uploadResult.Uri.ToString();
+                imageToAddDto.Publicid = uploadResult.PublicId;
+                _imageService.AddImage(imageToAddDto);
             }
-            imageToAddDto.ImageUrl = uploadResult.Uri.ToString();
-            imageToAddDto.Publicid = uploadResult.PublicId;
-            _imageService.AddImage(imageToAddDto);
             return Ok("Image Successfully Created");
 
         }
@@ -117,7 +121,7 @@ namespace EventReservation.API.Controllers
 
         [HttpGet]
         [Route("GetImageById/{Id}")]//Done
-        public IActionResult GetRoleById(int Id)
+        public IActionResult GetImageById(int Id)
         {
             var image = _imageService.GetImageById(Id);
             if (Id == 0)
@@ -128,6 +132,21 @@ namespace EventReservation.API.Controllers
                 return NoContent();
 
 
+
+        }
+        [HttpGet]
+        [Route("GetImageByHall/{Id}")]//Done
+        public IActionResult GetImageByHall(int Id)
+        {
+            if (Id == 0)
+                return BadRequest();
+
+            var image = _imageService.GetImageByHall(Id);
+            
+           if (image == null)
+                return NoContent();
+
+            return Ok(image);
 
         }
 

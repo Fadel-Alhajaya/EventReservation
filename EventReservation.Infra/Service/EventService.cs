@@ -16,7 +16,7 @@ namespace EventReservation.Infra.Service
             _eventRepository= eventRepository;
         }
 
-        public bool AcceptEvent(int EventId)
+        public Event AcceptEvent(int EventId)
         {
             return _eventRepository.AcceptEvent(EventId);
         }
@@ -36,7 +36,7 @@ namespace EventReservation.Infra.Service
             return _eventRepository.GetAllAccepted();
         }
 
-        public List<Event> GetAllEvent()
+        public List<EventInfoDTO> GetAllEvent()
         {
             return _eventRepository.GetAllEvent();
         }
@@ -51,7 +51,7 @@ namespace EventReservation.Infra.Service
             return _eventRepository.GetEventByHall(hallid);
         }
 
-        public Event GetEventById(int EventId)
+        public EventResultToDto GetEventById(int EventId)
         {
             return _eventRepository.GetEventById(EventId);
         }
@@ -66,7 +66,7 @@ namespace EventReservation.Infra.Service
             return _eventRepository.GetStatusOfHall(hallid, startAt, EndAt);
         }
 
-        public bool RejectEvent(int EventId)
+        public Event RejectEvent(int EventId)
         {
             return _eventRepository.RejectEvent(EventId);
         }

@@ -13,10 +13,27 @@ namespace EventReservation.Core.DTO
         public int UserId { get; set; }
         
         public int NoPerson { get; set; }
+
+        public decimal totalprice { set; get; }
+
+        public string cardtokenid { set; get; }
+
         public string Eventtype { get; set; }
-        [Required]
+   
         public DateTime Startdate { get; set; }
-        [Required]
+    
         public DateTime Enddate { get; set; }
+
+        public string Cardname { get; set; }
+
+        public string fullname { get; set; }
+
+        public string Ccv { get; set; }
+        public DateTime? Expirededate { get; set; }
+        public string Cardnumber { get; set; }
+
+        public string country { get; set; }
+
+        public string city { get; set; }
     }
 }

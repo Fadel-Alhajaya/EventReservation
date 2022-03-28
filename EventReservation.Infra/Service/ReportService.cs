@@ -38,5 +38,7 @@ namespace EventReservation.Infra.Service
         {
             return _reportrepository.EventAcceptedInterval(reportInterval);
         }
+
+       
     }
 }

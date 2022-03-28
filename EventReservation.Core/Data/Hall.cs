@@ -15,8 +15,8 @@ namespace EventReservation.Core.Data
         public int? Capacity { get; set; }
         public int? Waiters { get; set; }
         public int? Sale { get; set; }
-        public float? Resrvitionprice { get; set; }
-        public string Usage;
+        public float? Reservationprice { get; set; }
+        public string Usage { get; set; }
         public int? Locationid { get; set; }
         [ForeignKey("Locationid")]
         public virtual Location Location { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using EventReservation.Core.Common;
 using EventReservation.Core.Data;
+using EventReservation.Core.DTO;
 using EventReservation.Core.Repository;
 using System;
 using System.Collections.Generic;
@@ -54,22 +55,24 @@ namespace EventReservation.Infra.Repository
 
         }
 
-        public async Task<Aboutus> GetAllAboutus()
+        public async Task<List<AboutusToDto>> GetAllAboutus()
         {
-            var result = await _dbContext.Connection.QueryFirstOrDefaultAsync<Aboutus>("ABOUTUS_F_PACKAGE.GETALLABOUTUS", commandType: CommandType.StoredProcedure);
+            var result = await _dbContext.Connection.QueryAsync<AboutusToDto>("ABOUTUS_F_PACKAGE.GETALLABOUTUS", commandType: CommandType.StoredProcedure);
 
-            return result;
+            return result.AsList();
         }
 
-        public async Task<bool> UpdateAboutus(Aboutus aboutus)
+        public async Task<bool> UpdateAboutus(UpdateAboutusToDto aboutus)
         {
             var parmeter = new DynamicParameters();
             parmeter.Add("ID", aboutus.Aboutusid, dbType: DbType.Int32, direction: ParameterDirection.Input);
             parmeter.Add("DES", aboutus.Description, dbType: DbType.String, direction: ParameterDirection.Input);
             parmeter.Add("IMG", aboutus.Imagepath, dbType: DbType.String, direction: ParameterDirection.Input);
-            parmeter.Add("WEBID", aboutus.Websiteid, dbType: DbType.Int32, direction: ParameterDirection.Input);
+            parmeter.Add("WEBID", 1, dbType: DbType.Int32, direction: ParameterDirection.Input);
 
-            await _dbContext.Connection.ExecuteAsync("ABOUTUS_F_PACKAGE.UPDATEABOUTUS", parmeter, commandType: CommandType.StoredProcedure);
+          var result= await _dbContext.Connection.ExecuteAsync("ABOUTUS_F_PACKAGE.UPDATEABOUTUS", parmeter, commandType: CommandType.StoredProcedure);
+            if (result == 0)
+                return false;
 
             return true;
 

@@ -6,18 +6,27 @@ namespace EventReservation.Core.DTO
 {
     public class EventInfoDTO
     {
-
-        //public decimal cntevent { set; get; }
-        
+        public int Eventid { get; set; }
         public string eventtype { set; get; }
-        public DateTime startDate { get; set; }
-        public DateTime endDate { get; set; }
+        public DateTime? Startdate { get; set; }
+        public DateTime? Enddate { get; set; }
+        public int NoPerson { get; set; }
         public string status { set; get; }
         public string name { set; get; }
         public string usage { set; get; }
         public decimal rate { set; get; }
-        public decimal RESRVITIONPRICE { set; get; }
-        
+        public decimal reservationprice { set; get; }
+
+        public decimal totalprice { set; get; }
+
+        public string cardtokenid { set; get; }
+
+
+
+
+
+
+
 
 
 

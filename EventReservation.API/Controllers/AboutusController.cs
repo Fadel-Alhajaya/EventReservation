@@ -1,4 +1,5 @@
 ﻿using EventReservation.Core.Data;
+using EventReservation.Core.DTO;
 using EventReservation.Core.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -7,14 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+
 using System.Threading.Tasks;
 
 namespace EventReservation.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   
     public class AboutusController : ControllerBase
     {
 
@@ -31,11 +31,12 @@ namespace EventReservation.API.Controllers
 
         [HttpGet]
         [Route("GetAboutUS")]
-       [AllowAnonymous]
+        //[Authorize(Roles = ("Admin,MainAdmin"))]
         public IActionResult GetAboutUs()
         {
             var result = _aboutusService.GetAllAboutus().Result;
-
+          
+                         
             if (result == null)
                 return NoContent();
 
@@ -88,8 +89,8 @@ namespace EventReservation.API.Controllers
 
         [HttpPut]
         [Route("UpdateAboutUS")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult UpdateAboutus([FromForm]Aboutus aboutus)
+        //[Authorize(Roles = ("Admin,MainAdmin"))]
+        public IActionResult UpdateAboutus([FromForm] UpdateAboutusToDto aboutus)
         {
             var adoutOldResult = _aboutusService.GetAboutusById(aboutus.Aboutusid).Result;
             var projectPath = _hostEnviroment.ContentRootPath;

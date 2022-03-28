@@ -8,7 +8,7 @@ namespace EventReservation.Core.Service
    public  interface ILoctationService
     {
         List<Location> GetAllLocation();
-        bool SetLocation(Location location);
+        Location SetLocation(Location location);
         bool UpdateLocation(Location location);
         bool DeleteLocation(int locationId);
         Location GetLocationById(int locationId);

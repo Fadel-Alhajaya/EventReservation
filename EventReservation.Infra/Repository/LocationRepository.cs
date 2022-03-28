@@ -64,7 +64,7 @@ namespace EventReservation.Core.Repository
             return result;
         }
 
-        public bool SetLocation(Location location)
+        public Location SetLocation(Location location)
         {
            
             var p = new DynamicParameters();
@@ -73,10 +73,10 @@ namespace EventReservation.Core.Repository
             p.Add("LATITUDE", location.Latitude.ToString(), dbType: DbType.String, direction: ParameterDirection.Input);
             p.Add("LONGITUDE", location.Longitude.ToString(), dbType: DbType.String, direction: ParameterDirection.Input);
 
-            var result = _dbContext.Connection.ExecuteAsync("Location_PACKAGE.CREATELocation", p, commandType: CommandType.StoredProcedure);
+            var result = _dbContext.Connection.QueryFirstOrDefault<Location>("Location_PACKAGE.CREATELocation", p, commandType: CommandType.StoredProcedure);
             if (result == null)
-                return false;
-            return true;
+                return null;
+            return result;
         }
 
         public bool UpdateLocation(Location location)

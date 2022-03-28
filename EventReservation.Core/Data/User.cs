@@ -26,5 +26,6 @@ namespace EventReservation.Core.Data
         public virtual Role Role { get; set; }
         public virtual ICollection<Website> Website { get; set; }
         public string PublicId { get; set; }
+        public virtual ICollection<Event> Event { get; set; }
     }
 }

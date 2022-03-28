@@ -15,6 +15,10 @@ namespace EventReservation.Infra.Service
         {
             _testimonialRepository = testimonialRepository;
         }
+        public List<Testimonial> GetAllTestimonialApproved()
+        {
+            return _testimonialRepository.GetAllTestimonialApproved();
+        }
 
         public bool ApproveTestimonial(int id)
         {

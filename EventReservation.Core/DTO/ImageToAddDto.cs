@@ -11,7 +11,7 @@ namespace EventReservation.Core.DTO
         
         public string ImageUrl { get; set; }
         [Required]
-        public IFormFile ImageFile { get; set; }
+        public List<IFormFile> ImageFile { get; set; }
         public string Description { get; set; }
         [Required]
         public int Hallid { get; set; }

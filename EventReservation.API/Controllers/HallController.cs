@@ -38,7 +38,8 @@ namespace EventReservation.API.Controllers
         {
             var result = _hallService.CreateHall(hall);
 
-            if (result == false) return BadRequest();
+            if (result == null)
+                return BadRequest();
             return Ok(result);
 
         }
@@ -77,11 +78,11 @@ namespace EventReservation.API.Controllers
 
         }
 
-        [HttpPost]
-        [Route("GetHallByName")]//Done
-        public IActionResult GetHallByName([FromBody] Hall hall)
+        [HttpGet]
+        [Route("GetHallByName/{name}")]//Done
+        public IActionResult GetHallByName(string name)
         {
-            var result = _hallService.GetHallByName(hall);
+            var result = _hallService.GetHallByName(name);
             if (result == null)
                 return BadRequest("No Hall !!");
 
@@ -127,6 +128,19 @@ namespace EventReservation.API.Controllers
 
             return Ok(result);
 
+
+        }
+
+
+        [HttpGet]
+        [Route("GetHallByPrice/{price}")]//Done
+        public IActionResult GetHallByPrice(int price)
+        {
+            var result = _hallService.GetHallByPrice(price);
+            if (result == null)
+                return BadRequest("No Hall !!");
+
+            return Ok(result);
 
         }
 

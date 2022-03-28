@@ -1,4 +1,5 @@
 ﻿using EventReservation.Core.Data;
+using EventReservation.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,11 +11,11 @@ namespace EventReservation.Core.Service
     {
 
 
-        Task<Aboutus> GetAllAboutus();
+        Task<List<AboutusToDto>> GetAllAboutus();
 
         Task<Aboutus> AddAboutus(Aboutus aboutus);
 
-        Task<bool> UpdateAboutus(Aboutus aboutus);
+        Task<bool> UpdateAboutus(UpdateAboutusToDto aboutus);
 
         Task<bool> DeleteAboutus(int id);
 

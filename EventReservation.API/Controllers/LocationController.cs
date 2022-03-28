@@ -1,6 +1,7 @@
 ﻿using EventReservation.Core.Data;
 using EventReservation.Core.DTO;
 using EventReservation.Core.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,6 +25,7 @@ namespace EventReservation.API.Controllers
 
 
         [Route("AllLocation")]
+        [Authorize(Roles ="MainAdmin,Admin")]
         public IActionResult AllLocation()
         {
             var result = _locationService.GetAllLocation();
@@ -39,10 +41,10 @@ namespace EventReservation.API.Controllers
         public IActionResult SetLocation(Location location)
         {
             var loc = _locationService.SetLocation(location); 
-            if (loc == false)
+            if (loc == null)
                 return BadRequest("Error On Setting Location");
 
-            return Ok("The Location Added Successfully");
+            return Ok(loc);
 
         }
 
@@ -85,8 +87,6 @@ namespace EventReservation.API.Controllers
             return Ok("Location Edit Successfully ");
 
 
-
-
         }
 
         [HttpGet]
@@ -96,7 +96,6 @@ namespace EventReservation.API.Controllers
             var location = _locationService.GetlocationIdByCity(city);
             if (location == null)
                 return BadRequest("No Location !!");
-
             return Ok(location);
 
         }
